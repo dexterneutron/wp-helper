@@ -7,9 +7,13 @@
  * Author: Felix Lugo
  * Author URI: https://github.com/dexterneutron
  */
+
 add_action('admin_notices','remove_notices',1);
 function remove_notices(){
 	remove_action('admin_notices', 'rocket_warning_htaccess_permissions');
+	/*Since the notice_advanced_cache_permissions function was called from a class, removing the action could be a bit tricky.
+	one approach is to first find the callback key (or unique ID) and then use that reference to remove the action. 
+	*/
 	do_hard_unregister_object_callback( 'admin_notices', 10, 'notice_advanced_cache_permissions');
 }
  function do_hard_unregister_object_callback( $event_name, $priority, $method_name ) {
